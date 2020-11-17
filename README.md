@@ -130,7 +130,7 @@ De momento, los tipos son HP e IBM... que son con los que he podido probar :-)
 
 3. Seguidamente testeamos si puede leer los datos de los host y si puede comunicar con ellos.
 ```sh
-c:\pandorafms\sripts\ipmitool.cmd Host1 TEST
+c:\pandorafms\scripts\ipmitool.cmd Host1 TEST
 Ipmitool.cmd
 IP:   1.2.3.4
 USER: abcd
@@ -148,7 +148,7 @@ Por ejemplo el módulo que devuelve el estado de la fuente de alimentacion 1 del
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd PSU1 Host1
+module_exec c:\pandorafms\scripts\ipmitool.cmd PSU1 Host1
 module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_end
 ```
@@ -199,7 +199,7 @@ Ejemplo de uso para las fuente de alimentación 1 de un servidor HP:<br>
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd PSUS Host1
+module_exec c:\pandorafms\scripts\ipmitool.cmd PSUS Host1
 module_description Servidor HP 1 - Estado Fisico Fuentes Alimentacion
 module_end
 ```
@@ -215,7 +215,7 @@ Ejemplo de uso para la fuente de alimentación 1 de un servidor tipo HP:<br>
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd PSU 1 Host1
+module_exec c:\pandorafms\scripts\ipmitool.cmd PSU 1 Host1
 module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_end
 ```
@@ -237,7 +237,7 @@ Ejemplo de uso para el estado de los discos de un servidor IBM:<br>
 module_begin
 module_name Servidor IBM 5 - Alarma Discos Duros
 module_type generic_data
-module_exec c:\pandorafms\sripts\ipmitool.cmd DRIVE_FAULT Host5
+module_exec c:\pandorafms\scripts\ipmitool.cmd DRIVE_FAULT Host5
 module_description Servidor IBM 5 - Alarma Discos Duros
 module_min_warning 0
 module_max_warning 0
@@ -264,7 +264,7 @@ Ejemplo de uso para el estado de los ventiladores de un servidor HP:<br>
 module_begin
 module_name Servidor HP 1 - Alarma Fuentes Alimentacion
 module_type generic_data
-module_exec c:\pandorafms\sripts\ipmitool.cmd FAN_FAULT Host1
+module_exec c:\pandorafms\scripts\ipmitool.cmd FAN_FAULT Host1
 module_description Servidor HP 1 - Alarma Fuentes Alimentacion
 module_min_warning 0
 module_max_warning 0
@@ -285,7 +285,7 @@ Ejemplo de uso:
 module_begin
 module_name IPMI TOOL - Version
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd VERSION
+module_exec c:\pandorafms\scripts\ipmitool.cmd VERSION
 module_description IPMI TOOL - Version del script y fecha de publicación
 module_end
 ```
