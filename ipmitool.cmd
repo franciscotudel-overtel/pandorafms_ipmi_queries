@@ -235,6 +235,18 @@ SET var=%%F
 
 :SYS_POW
 @%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% chassis status | %GREPBIN% System | %AWKBIN% " {print $4} "
+FOR /F "tokens=* USEBACKQ" %%F IN (`@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% chassis status ^| %GREPBIN% System ^| %AWKBIN% " {print $4} "`) DO (
+SET var=%%F
+)
+@rem ECHO %var%
+@if %var%==on (
+	@echo 1
+) else (
+    @echo 0
+)
+@SET var=
+@rem SET COMANDO=
+@GOTO end
 @GOTO end
 
 
