@@ -179,19 +179,18 @@ Con esto conseguiriamos que el módulo se ejecutase cada hora (a la hora y 45 mi
 Peeeero, siendo datos críticos, lo dejo a la elección de cada usuario.
 
 ### Estado de fuentes de alimentacion
-Obtener listados de las tareas para su posterior uso en los modulos.
+*Descripción*
+Obtener Estado de cada una de las fuentes de alimentación del equipo.
+*Dato Devuelto*
+Devuelve un *string*.<br>
 
-#### Todas las tareas
-Lista todas las tareas programadas en Veeam Backup de la maquina local, en formato CSV y sin importar si están o no habilitadas.
-
+Ejemplo de uso para la fuente de alimentación 1 de un servidor tipo HP:
 ```
 module_begin
-module_name Veeam Backup - Jobs
+module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_type generic_data_string
-module_exec %SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -nologo -Noprofile -ExecutionPolicy Bypass -command C:\zabbix\scripts_pandorafms\vb_job.ps1 ListCSV
-module_description Lista de Tareas
-module_crontab 45 * * * *
-module_timeout 50
+module_exec c:\pandorafms\sripts\ipmitool.cmd Host1 PSU1
+module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_end
 ```
 
@@ -205,12 +204,10 @@ Devuelve un *string*
 Ejemplo de uso:
 ```
 module_begin
-module_name Veeam Backup Jobs - version script
-module_type generic_data
-module_exec %SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -nologo -Noprofile -ExecutionPolicy Bypass -command C:\pandorafms\scripts\vb_job.ps1 Version
-module_description Veeam Backup Jobs - version del script
-module_crontab 45 * * * *
-module_timeout 50
+module_name IPMI TOOL - Version
+module_type generic_data_string
+module_exec c:\pandorafms\sripts\ipmitool.cmd VERSION
+module_description IPMI TOOL - Version del script y fecha de publicación
 module_end
 ```
 
