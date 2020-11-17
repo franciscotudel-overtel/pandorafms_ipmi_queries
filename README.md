@@ -84,27 +84,25 @@ The Intelligent Platform Management Interface (IPMI) is a set of computer interf
 
 Este repositorio pretende facilitar la tarea de recoger datos de las tareas de Veeam Backup asi como de los repositorios para luego poder usarlos en Pandora FMS y con ellos obtener graficos de uso así como poder enviar alarmas en caso de que fallen.
 
-Todas las llamadas a la API están documentadas perfectamente por parte del fabricante [aqui](https://helpcenter.veeam.com/docs/backup/powershell/getting_started.html?ver=100)
-
 
 <!-- COMENZANDO -->
 
 
 ### Prerequisitos
 
-El agente de PandoraFMS debe estar instalado y ser funcional.
+* El agente de PandoraFMS debe estar instalado y ser funcional.
 
-La herramienta con la que vamos a extraer la información se llama *isc_ipmitool* y se puede descargar desde [aqui](https://support.advantech.co.jp/support/KnowledgeBaseSRDetail_New.aspx?SR_ID=1-1LDVAOC).
+* La herramienta con la que vamos a extraer la información se llama *isc_ipmitool* y se puede descargar desde [aqui](https://support.advantech.co.jp/support/KnowledgeBaseSRDetail_New.aspx?SR_ID=1-1LDVAOC).
 Es la encargada de hablar con el interface IPMI de los servidores para obtener los datos.
 
-Por ejemplo: 
-- En la ILO de un servidor HP se configura [asi](https://techexpert.tips/es/hp-ilo-es/ipmi-en-la-interfaz-de-ilo/).
-- En la IDRAC de un servidor DELL se configura [asi](https://techexpert.tips/es/dell-idrac-es/ipmi-en-la-interfaz-idrac/).
-- En Lenovo, el fabricante mantiene un set de scripts en los que se detalla también como recoger datos de sus servidores, el repositorio está en [Github](https://github.com/lenovo/powershell-redfish-lenovo)
+* Para cada fabricante y casi para cada modelo de servidor, la manera de configurar la interfaz es diferente. Aquí van algunos ejemplos.
 
-También nos hacen falta una serie de herramientas que provienen del mundo linux. AWK, GREP, HEAD ...
+  - En la ILO de un servidor HP se configura [asi](https://techexpert.tips/es/hp-ilo-es/ipmi-en-la-interfaz-de-ilo/).
+  - En la IDRAC de un servidor DELL se configura [asi](https://techexpert.tips/es/dell-idrac-es/ipmi-en-la-interfaz-idrac/).
+  - En Lenovo, el fabricante mantiene un set de scripts en los que se detalla también como recoger datos de sus servidores, el repositorio está en [Github](https://github.com/lenovo/powershell-redfish-lenovo)
 
-Hay varias implementaciones de estas, yo personalmente uso alguna de [estas](https://tinyapps.org/blog/201606040700_tiny_unix_tools_windows.html)
+* También nos hacen falta una serie de herramientas que provienen del mundo linux. AWK, GREP, HEAD ...
+  Hay varias implementaciones de ellas, yo personalmente uso alguna de [estas](https://tinyapps.org/blog/201606040700_tiny_unix_tools_windows.html)
 
 ### Instalacion
 
