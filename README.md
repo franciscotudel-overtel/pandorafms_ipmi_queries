@@ -148,10 +148,19 @@ Por ejemplo el módulo que devuelve el estado de la fuente de alimentacion 1 del
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd Host1 PSU1
+module_exec c:\pandorafms\sripts\ipmitool.cmd PSU1 Host1
 module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_end
 ```
+
+5. Usuarios de Zabbix
+Copiar el script y el ini de configuracion en una ruta conocida
+Los usuarios de Zabbix también puede usarse este script de la siguiente forma, poner esta linea en el archivo zabbixagent.conf del agente añadir esta linea al final y reiniciarlo
+```
+UserParameter=ipmitool[*],c:\zabbix\scripts\ipmitool.cmd $1 $2 $3 $4
+```
+Reiniciar el agente en el equipo
+En el servidor, configurar los item según corresponda.
 
 
 <!-- USAGE EXAMPLES -->
@@ -178,7 +187,25 @@ module_timeout 50
 Con esto conseguiriamos que el módulo se ejecutase cada hora (a la hora y 45 minutos) con un timeout de 50 segundos para dar tiempo a la herramienta a hacer la consulta.<BR>
 Peeeero, siendo datos críticos, lo dejo a la elección de cada usuario.
 
-### Estado de fuentes de alimentacion
+## Estado de fuentes de alimentacion
+
+### Todas
+*Descripción*
+Obtener Estado de todas las fuentes de alimentación del equipo.
+*Dato Devuelto*
+Devuelve un *string*.<br>
+
+Ejemplo de uso para las fuente de alimentación 1 de un servidor HP:
+```
+module_begin
+module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_type generic_data_string
+module_exec c:\pandorafms\sripts\ipmitool.cmd PSUS Host1
+module_description Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_end
+```
+
+### Una concreta
 *Descripción*
 Obtener Estado de cada una de las fuentes de alimentación del equipo.
 *Dato Devuelto*
@@ -189,8 +216,36 @@ Ejemplo de uso para la fuente de alimentación 1 de un servidor tipo HP:
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_type generic_data_string
-module_exec c:\pandorafms\sripts\ipmitool.cmd Host1 PSU1
+module_exec c:\pandorafms\sripts\ipmitool.cmd PSU 1 Host1
 module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
+module_end
+```
+
+
+## Estado de los ventiladores
+
+### Fallo de alguno
+*Descripción*
+Obtener Estado de fallo de alguno de los ventiladores.
+*Dato Devuelto*
+Devuelve un *int*.<br>
+- 0 Si todo bien
+- 1 Si alguno mal
+
+*Alarma*
+Critico si alguno va mal
+
+Ejemplo de uso para el estado de los ventiladores de un servidor HP:
+```
+module_begin
+module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_type generic_data
+module_exec c:\pandorafms\sripts\ipmitool.cmd FAN_FAULT Host1
+module_description Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_min_warning 0
+module_max_warning 0
+module_min_critical 1
+module_max_critical 0
 module_end
 ```
 
