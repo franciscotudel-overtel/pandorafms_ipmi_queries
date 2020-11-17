@@ -219,7 +219,32 @@ module_exec c:\pandorafms\sripts\ipmitool.cmd PSU 1 Host1
 module_description Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
 module_end
 ```
+## Estado de los discos
 
+### Fallo de alguno
+*Descripción*:
+Obtener Estado de fallo de alguno de los discos. Es una alarma interna del servidor que se pone a 1 cuando alguno de los discos no funciona correctamente.<br>
+*Dato Devuelto*:
+Devuelve un *int*.<br>
+- 0 Si todo bien
+- 1 Si alguno mal
+
+*Alarma*:
+Critico si alguno va mal.<br>
+
+Ejemplo de uso para el estado de los discos de un servidor IBM:<br>
+```
+module_begin
+module_name Servidor IBM 5 - Alarma Discos Duros
+module_type generic_data
+module_exec c:\pandorafms\sripts\ipmitool.cmd DRIVE_FAULT Host5
+module_description Servidor IBM 5 - Alarma Discos Duros
+module_min_warning 0
+module_max_warning 0
+module_min_critical 1
+module_max_critical 0
+module_end
+```
 
 ## Estado de los ventiladores
 
@@ -237,10 +262,10 @@ Critico si alguno va mal.<br>
 Ejemplo de uso para el estado de los ventiladores de un servidor HP:<br>
 ```
 module_begin
-module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_name Servidor HP 1 - Alarma Fuentes Alimentacion
 module_type generic_data
 module_exec c:\pandorafms\sripts\ipmitool.cmd FAN_FAULT Host1
-module_description Servidor HP 1 - Estado Fisico Fuentes Alimentacion
+module_description Servidor HP 1 - Alarma Fuentes Alimentacion
 module_min_warning 0
 module_max_warning 0
 module_min_critical 1
