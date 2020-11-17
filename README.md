@@ -75,7 +75,7 @@ Operando con un equipo de calidad humana y técnica sobresaliente, damos servici
 *Pandora FMS* es un software de código abierto que sirve para monitorear (monitorizar) y medir todo tipo de elementos. Monitoriza sistemas, aplicaciones o dispositivos de red. Permite conocer el estado de cada elemento de un sistema a lo largo del tiempo ya que dispone de histórico de datos y eventos. Pandora FMS está orientado a grandes entornos, y permite gestionar con y sin agentes, varios miles de sistemas, por lo que se puede emplear en grandes clusters, centros de datos y redes de todo tipo.
 
 *IPMI*
-Segú [Wikipedia](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface):
+Según la [Wikipedia](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface):
 
 The Intelligent Platform Management Interface (IPMI) is a set of computer interface specifications for an autonomous computer subsystem that provides management and monitoring capabilities independently of the host system's CPU, firmware (BIOS or UEFI) and operating system. IPMI defines a set of interfaces used by system administrators for out-of-band management of computer systems and monitoring of their operation.
 
@@ -154,8 +154,7 @@ module_end
 ```
 
 5. Usuarios de Zabbix
-Copiar el script y el ini de configuracion en una ruta conocida
-Los usuarios de Zabbix también puede usarse este script de la siguiente forma, poner esta linea en el archivo zabbixagent.conf del agente añadir esta linea al final y reiniciarlo
+Los usuarios de Zabbix también pueden usarlo de la siguiente forma, poner esta linea en el archivo zabbixagent.conf del agente añadir esta linea al final y reiniciarlo
 ```
 UserParameter=ipmitool[*],c:\zabbix\scripts\ipmitool.cmd $1 $2 $3 $4
 ```
@@ -190,12 +189,12 @@ Peeeero, siendo datos críticos, lo dejo a la elección de cada usuario.
 ## Estado de fuentes de alimentacion
 
 ### Todas
-*Descripción*
-Obtener Estado de todas las fuentes de alimentación del equipo.
-*Dato Devuelto*
+*Descripción*:
+Obtener Estado de todas las fuentes de alimentación del equipo.<br>
+*Dato Devuelto*:
 Devuelve un *string*.<br>
 
-Ejemplo de uso para las fuente de alimentación 1 de un servidor HP:
+Ejemplo de uso para las fuente de alimentación 1 de un servidor HP:<br>
 ```
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
@@ -206,12 +205,12 @@ module_end
 ```
 
 ### Una concreta
-*Descripción*
-Obtener Estado de cada una de las fuentes de alimentación del equipo.
-*Dato Devuelto*
+*Descripción*:
+Obtener Estado de cada una de las fuentes de alimentación del equipo.<br>
+*Dato Devuelto*:
 Devuelve un *string*.<br>
 
-Ejemplo de uso para la fuente de alimentación 1 de un servidor tipo HP:
+Ejemplo de uso para la fuente de alimentación 1 de un servidor tipo HP:<br>
 ```
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuente Alimentacion 1
@@ -225,17 +224,17 @@ module_end
 ## Estado de los ventiladores
 
 ### Fallo de alguno
-*Descripción*
-Obtener Estado de fallo de alguno de los ventiladores.
-*Dato Devuelto*
+*Descripción*:
+Obtener Estado de fallo de alguno de los ventiladores.<br>
+*Dato Devuelto*:
 Devuelve un *int*.<br>
 - 0 Si todo bien
 - 1 Si alguno mal
 
-*Alarma*
-Critico si alguno va mal
+*Alarma*:
+Critico si alguno va mal.<br>
 
-Ejemplo de uso para el estado de los ventiladores de un servidor HP:
+Ejemplo de uso para el estado de los ventiladores de un servidor HP:<br>
 ```
 module_begin
 module_name Servidor HP 1 - Estado Fisico Fuentes Alimentacion
