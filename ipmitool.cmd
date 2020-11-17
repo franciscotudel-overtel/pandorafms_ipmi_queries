@@ -93,6 +93,7 @@ for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s %HOST% /i HOST_TYPE') do (
 @IF "%~1"=="LED_STATUS" GOTO LED_STATUS
 @IF "%~1"=="GET_HOST" GOTO GET_HOST
 @IF "%~1"=="DISCOVERY" GOTO DISCOVERY
+@IF "%~1"=="READHOSTINFO" GOTO READHOSTINFO
 
 
 
@@ -101,7 +102,7 @@ for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s %HOST% /i HOST_TYPE') do (
 
 @GOTO end
 
-@rem ESTADO DEL CHASIS
+@rem Informacion basica del ESTADO DEL CHASIS
 :CHASSIS_STATUS
 @%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% chassis status
 @GOTO end
@@ -233,6 +234,32 @@ SET var=%%F
 @SET PSU_NUM=
 @GOTO end
 
+
+@rem Datos del LOG de la BIOS o de IPMI, version, fecha ultima adicion
+:SEL
+@if "%~2"=="" goto end
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sel
+@GOTO end
+
+@rem Entradas del LOG y que es lo que paso
+:SEL_ELIST
+@rem Lista de eventos del sistema
+@if "%~2"=="" goto end
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sel elist
+@GOTO end
+
+@rem Estado de todos los sensores con su valor
+:SDR
+@if "%~2"=="" goto end
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr
+@GOTO end
+
+@rem Estado de todos los sensores con su valor y el numero en la columna 4 que lo identifica en la estructura
+:SDR_ELIST
+@if "%~2"=="" goto end
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr elist
+@GOTO end
+
 :SYS_POW
 @%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% chassis status | %GREPBIN% System | %AWKBIN% " {print $4} "
 FOR /F "tokens=* USEBACKQ" %%F IN (`@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% chassis status ^| %GREPBIN% System ^| %AWKBIN% " {print $4} "`) DO (
@@ -264,22 +291,6 @@ SET var=%%F
 @echo USER          : %USER%
 @echo PASS          : %PASS%
 @echo HOST_TYPE     : %HOST_TYPE%
-@GOTO end
-
-:DISCOVERY
-for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s Host1 /i IP') do (
-    @set IP=%%a
-)
-
-for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s Host1 /i USER') do (
-    @set USER=%%a
-)
-
-for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s Host1 /i PASS') do (
-    @set PASS=%%a
-)
-
-@echo {"data":[{"{#IPMINAME}":"Host1","{#IPMIIP}":"%IP%","{#IPMIUSER}":"%USER%"}]}
 @GOTO end
 
 
