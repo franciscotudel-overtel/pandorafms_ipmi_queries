@@ -225,7 +225,7 @@ module_end
 
 ### Fallo de alguno
 *Descripción*:
-Obtener Estado de fallo de alguno de los ventiladores.<br>
+Obtener Estado de fallo de alguno de los ventiladores. Es una alarma interna del servidor que se pone a 1 cuando alguno de los ventiladores no funciona correctamente.<br>
 *Dato Devuelto*:
 Devuelve un *int*.<br>
 - 0 Si todo bien
