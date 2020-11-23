@@ -52,50 +52,53 @@ for /f "delims=" %%a in ('call %INIREAD% %INIFILE% /s %HOST% /i HOST_TYPE') do (
 
 @call :DEBUGDATA
 
-@rem Fuentes
-@IF "%~1"=="PSU" GOTO PSU
-@IF "%~1"=="PSUS" GOTO PSUS
 
-@rem Estado en marcha o parado
-@IF "%~1"=="SYS_POW" GOTO SYS_POW
 
 @rem AYUDA
 @IF "%~1"=="HELP" GOTO HELP
 @IF "%~1"=="help" GOTO HELP
 @IF "%~1"=="Help" GOTO HELP
 
+@IF "%~1"=="CHASSIS_STATUS" GOTO CHASSIS_STATUS
+@IF "%~1"=="DRIVE_FAULT" GOTO DRIVE_FAULT
+@IF "%~1"=="FAN_FAULT" GOTO FAN_FAULT
+@IF "%~1"=="GET_HOST" GOTO GET_HOST
+@IF "%~1"=="MAIN_POWER_FAULT" GOTO MAIN_POWER_FAULT
+@IF "%~1"=="POWER_CONTROL_FAULT" GOTO POWER_CONTROL_FAULT
+@IF "%~1"=="POWER_SYS_OVERLOAD" GOTO POWER_SYS_OVERLOAD
+@IF "%~1"=="PR" GOTO PR
+@rem Fuentes
+@IF "%~1"=="PSUS" GOTO PSUS
+@IF "%~1"=="PSU1" GOTO PSU1
+@IF "%~1"=="PSU2" GOTO PSU2
+@rem Sensores Todos en lista
 @IF "%~1"=="SDR" GOTO SDR
-@IF "%~1"=="SDR_TYPE_LIST" GOTO SDR_TYPE_LIST
 @IF "%~1"=="SDR_ELIST" GOTO SDR_ELIST
+@rem Log de eventos
+@IF "%~1"=="SEL" GOTO SEL
+@IF "%~1"=="SEL_ELIST" GOTO SEL_ELIST
+
+
+
+@IF "%~1"=="PSU" GOTO PSU
+@IF "%~1"=="SDR_TYPE_LIST" GOTO SDR_TYPE_LIST
 @IF "%~1"=="SDR_ELIST_LINE" GOTO SDR_ELIST_LINE
 @IF "%~1"=="SDR_ELIST_FIELD" GOTO SDR_ELIST_FIELD
 @IF "%~1"=="SDR_ELIST_LINETOEND" GOTO SDR_ELIST_LINETOEND
 @IF "%~1"=="SDR_ELIST_C4C5" GOTO SDR_ELIST_C4C5
 @IF "%~1"=="SENSOR_LIST" GOTO SENSOR_LIST
-@IF "%~1"=="PR" GOTO PR
-@IF "%~1"=="SEL" GOTO SEL
-@IF "%~1"=="SEL_ELIST" GOTO SEL_ELIST
+@rem Estado en marcha o parado
+@IF "%~1"=="SYS_POW" GOTO SYS_POW
 @IF "%~1"=="FRU" GOTO FRU
 @IF "%~1"=="FANS" GOTO FANS
 @IF "%~1"=="FAN" GOTO FAN
 @IF "%~1"=="MEM" GOTO MEM
 @IF "%~1"=="LOM" GOTO LOM
 @IF "%~1"=="LOMS" GOTO LOMS
-@IF "%~1"=="PSU" GOTO PSU
-@IF "%~1"=="PSUS" GOTO PSUS
-@IF "%~1"=="SYS_POW" GOTO SYS_POW
-@IF "%~1"=="POWER_SYS_OVERLOAD" GOTO POWER_SYS_OVERLOAD
-@IF "%~1"=="POWER_CONTROL_FAULT" GOTO POWER_CONTROL_FAULT
-@IF "%~1"=="MAIN_POWER_FAULT" GOTO MAIN_POWER_FAULT
-@IF "%~1"=="DRIVE_FAULT" GOTO DRIVE_FAULT
-@IF "%~1"=="FAN_FAULT" GOTO FAN_FAULT
-@IF "%~1"=="CHASSIS_STATUS" GOTO CHASSIS_STATUS
 @IF "%~1"=="LED_STATUS" GOTO LED_STATUS
-@IF "%~1"=="GET_HOST" GOTO GET_HOST
 @IF "%~1"=="DISCOVERY" GOTO DISCOVERY
 @IF "%~1"=="READHOSTINFO" GOTO READHOSTINFO
-
-
+@IF "%~1"=="SYS_POW" GOTO SYS_POW
 
 @echo Comando %1 desconocido
 @GOTO end
@@ -202,6 +205,23 @@ SET var=%%F
 @SET var=
 @GOTO end
 
+:PR
+@ECHO Estado de las fuentes de alimentacion
+@ECHO Power Suply 1
+%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.1 | %GREPBIN% 70h
+@ECHO Power Suply 2
+%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.2 | %GREPBIN% 71h
+@ECHO Estado de las fuentes
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.1 | %GREPBIN% 70h | %GREPBIN% Presence
+@echo FUENTE 1 ERRORLEVEL=%ERRORLEVEL%
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.2 | %GREPBIN% 71h | %GREPBIN% Presence
+@echo FUENTE 2 ERRORLEVEL=%ERRORLEVEL%
+@GOTO end
+
+
+
+
+
 
 :PSUS
 @if "%~2"=="" goto end
@@ -210,28 +230,31 @@ SET var=%%F
 @SET PSU_NUM=
 @GOTO end
 
-:PSU
-@if "%~2"=="" goto end
-@if "%~3"=="" goto end
-@SET PSU_NUM=10.%~3
-@if "%~4"=="" ( 
-	@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity %PSU_NUM% | %GREPBIN% Power | %AWKBIN% "{print $11 $12}"
-	@GOTO end
-	)
-@if "%~4"=="TEMP" (
-	@if "%~3"=="1" (
-		@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity %PSU_NUM% | %GREPBIN% 41-P | %AWKBIN% "{print $10}"
-		)
-	@if "%~3"=="2" (
-		@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity %PSU_NUM% | %GREPBIN% 42-P | %AWKBIN% "{print $10}"
-		)
-	@GOTO end
-	)
-@if "%~4"=="WATT" (
-	@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity %PSU_NUM% | %GREPBIN% Output | %AWKBIN% "{print $11}"
-	@GOTO end
-	)
-@SET PSU_NUM=
+
+:PSU1
+rem ^| %GREPBIN% 70h ^| %GREPBIN% Presence
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.1 | %GREPBIN% 70h | %GREPBIN% Presence > NUL 2>&1
+set var1=%ERRORLEVEL%
+@rem ECHO VAR1=%var1%
+@if %var1%==0 (
+	@echo 0
+) else (
+    @echo 1
+)
+@set var1=
+@GOTO end
+
+:PSU2
+rem ^| %GREPBIN% 70h ^| %GREPBIN% Presence
+@%IPMIBIN% -I lanplus -H %IP% -U %USER% -P %PASS% sdr entity 10.2 | %GREPBIN% 71h | %GREPBIN% Presence > NUL 2>&1
+set var1=%ERRORLEVEL%
+@rem ECHO VAR1=%var1%
+@if %var1%==0 (
+	@echo 0
+) else (
+    @echo 1
+)
+@set var1=
 @GOTO end
 
 
