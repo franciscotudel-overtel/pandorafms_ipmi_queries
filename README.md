@@ -277,7 +277,7 @@ module_end
 
 ### Equipo apagado o encendido
 *Descripción*:
-Obtener Estado de fallo de alguno de los ventiladores. Es una alarma interna del servidor que se pone a 1 cuando alguno de los ventiladores no funciona correctamente.<br>
+Obtener Estado de Encendido/Apagado de la maquina. Es una alarma interna del servidor que se pone a 1 cuando el equipo esta apagado.<br>
 *Dato Devuelto*:
 Devuelve un *int*.<br>
 - 0 Si todo bien
@@ -289,9 +289,9 @@ Critico si alguno va mal.<br>
 Ejemplo de uso para el estado de los ventiladores de un servidor HP:<br>
 ```
 module_begin
-module_name Servidor HP 1 - Alarma Fuentes Alimentacion
+module_name Servidor HP 1 - Alarma Equipo Apagado
 module_type generic_data
-module_exec c:\pandorafms\scripts\ipmitool.cmd FAN_FAULT Host1
+module_exec c:\pandorafms\scripts\ipmitool.cmd MAIN_POWER_FAULT Host1
 module_description Servidor HP 1 - Alarma Fuentes Alimentacion
 module_min_warning 0
 module_max_warning 0
